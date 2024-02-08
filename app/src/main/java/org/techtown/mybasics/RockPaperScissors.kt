@@ -25,6 +25,8 @@ import kotlin.random.Random
  * paper > rock
  *
  * 해서 마지막에 총 몇판 중 몇번 이겼고 졌습니다 알려주기
+ *
+ * 비긴거 따로 체크하기
  */
 
 class User{
@@ -39,6 +41,7 @@ class User{
 class Game {
     var computerInput = 0
     var gameCounts = 0;
+    var sameInput = 0
 }
 
 fun main() {
@@ -78,6 +81,7 @@ fun main() {
                     when (game.computerInput) {
                         0 -> {
                             println("비겼습니다")
+                            game.sameInput++
                         }
                         1 -> {
                             println("${user.name.toString()}님께서 졌습니다")
@@ -94,6 +98,7 @@ fun main() {
                     when(game.computerInput) {
                         1 -> {
                             println("비겼습니다")
+                            game.sameInput++
                         }
                         2 -> {
                             println("${user.name.toString()}님께서 졌습니다")
@@ -110,6 +115,7 @@ fun main() {
                     when(game.computerInput) {
                         2 -> {
                             println("비겼습니다")
+                            game.sameInput++
                         }
                         0 -> {
                             println("${user.name.toString()}님께서 졌습니다")
@@ -127,14 +133,23 @@ fun main() {
     }
 
     println()
-    println()
     printResult(user,game)
 }
 
 fun printResult(user: User, game: Game) {
     println("****************************")
-    println()
     println("게임 정보")
     println("총 게임 횟수: ${game.gameCounts}")
     println("${user.name.toString()}님께서 이긴 횟수: ${user.gameWins}")
+    println("${user.name.toString()}님께서 비긴 횟수: ${game.sameInput}")
+    println("${user.name.toString()}님께서 진 횟수: ${game.gameCounts - user.gameWins - game.sameInput}")
+
+    val lose = game.gameCounts - user.gameWins - game.sameInput
+
+    if (user.gameWins > (lose + game.sameInput)) {
+        println("${user.name.toString()}님께서 더 많이 이겼습니다!")
+    } else {
+        println("${user.name.toString()}님께서 더 많이 졌습니다...")
+    }
+    println("****************************")
 }
